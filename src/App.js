@@ -43,21 +43,22 @@ UpdateBookShelf = (book, shelf)=>{
 }
 
   render() {
+   const  {books, read, wantToRead, currentlyReading} = this.state
     return (
       <div className="app">
        <Route exact path="/" render={()=>(
         <BookLists
-          books = {this.state.books}
-          read = {this.state.read}
-          wantToRead = {this.state.wantToRead}
-          currentlyReading = {this.state.currentlyReading}
+          books = {books}
+          read = {read}
+          wantToRead = {wantToRead}
+          currentlyReading = {currentlyReading}
           UpdateBookShelf = {this.UpdateBookShelf}
         />
        )}/>
          
        <Route path="/search" render={()=>(
         <SearchPage
-          UpdateBookShelf = {this.UpdateBookShelf}
+          UpdateBookShelf = {this.UpdateBookShelf} allBooks={books}
         />
        )}/>
       </div>

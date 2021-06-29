@@ -5,7 +5,8 @@ import * as BooksAPI from './BooksAPI'
 class SearchPage extends Component {
     state = {
         query: '',
-        searchedBooks: []
+        searchedBooks: [],
+        currentShelfUpdate: 'none'
     }
 
     handleSearch = (ev) => {
@@ -17,20 +18,23 @@ class SearchPage extends Component {
     }
     handleSearchBooks = (query) => {
       if(query) {
-        BooksAPI.search(query).then(books => {
-          if(books.error){
+        BooksAPI.search(query).then(searchedBooks => {
+          if(searchedBooks.error){
             this.setState({searchedBooks: []})
           }else{
-            this.setState({searchedBooks: books})
-          }
-        })
-      }else{ this.setState({searchedBooks: []})}
+             this.setState({searchedBooks: searchedBooks})
+              } })
+             }
+            else{
+              this.setState({searchedBooks: []})}
     }
+  
+ 
 
     render() {
         const {query, searchedBooks} = this.state
         const {UpdateBookShelf} = this.props
-        
+
         return (
             <div className="search-books">
             <div className="search-books-bar">
@@ -45,17 +49,19 @@ class SearchPage extends Component {
             </div>     
             <div className="search-books-results"> 
             <ol className="books-grid">
-            {searchedBooks.map((searchedBook)=> {
-             return (  
-            <li key={searchedBook.id}>
-              <Book
-               book={searchedBook}
-               UpdateBookShelf = {UpdateBookShelf}
-               currentShelf = {searchedBook.shelf}
-              />
-            </li>
-            )}
-            )}
+            { searchedBooks.map((searchedBook)=> {
+         return (  
+        <li key={searchedBook.id}>
+          <Book
+           searchedBook={searchedBook}
+
+           allBooks = {this.props.allBooks}
+           UpdateBookShelf = {UpdateBookShelf}
+           currentShelf = {searchedBook.shelf}
+          />
+        </li>)})
+      
+    }
             </ol>  
             </div>    
           </div>
